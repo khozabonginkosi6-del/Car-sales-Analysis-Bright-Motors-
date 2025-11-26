@@ -51,8 +51,7 @@ AVG(profit_margin) → average margin
 
 COUNT(*) → units sold
 
-📊 Example Query
-sql
+📊 Query
 SELECT make,
        model,
        year,
@@ -71,7 +70,7 @@ ORDER BY total_revenue DESC;
 🚀 Usage
 Snowflake: Run SQL scripts to transform and aggregate sales data.
 
-Power BI / Looker Studio: Connect directly to Snowflake or export results for visualization.
+Power BI and Looker Studio: Connect directly to Snowflake or export results for visualization.
 
 Excel: Export query results as CSV for pivot tables and slicers.
 
@@ -88,9 +87,3 @@ Evaluating profit margins to optimize pricing strategies.
 
 Providing executives with interactive dashboards for decision-making.
 
-📌 Next Steps
-Add filters/slicers for year, state, and make/model in BI tools.
-
-Visualize revenue trends (line chart), regional sales (map), and profit margins (bar chart).
-
-Extend analysis to include fuel type, dealer performance, and seasonal trends.
