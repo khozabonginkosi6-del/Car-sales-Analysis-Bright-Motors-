@@ -1,89 +1,75 @@
-# Car-sales-Analysis-Bright-Motors-Car Data Sales Analysis
-📌 Project Overview
-This project analyzes vehicle sales data stored in Snowflake (CAR_DATA_SALES.PUBLIC.VEHICLE_SALES00). The goal is to transform raw sales records into actionable insights such as total revenue, profit margins, and aggregated views by make, model, year, and state. Outputs are designed for executive dashboards, reporting, and business intelligence tools like Power BI or Looker Studio.
+# 🚗 Car Sales Analysis — Bright Motors
 
-📂 Dataset
-Table: CAR_DATA_SALES.PUBLIC.VEHICLE_SALES00
+## 📌 Summary of the Case Study
+This case study analyzed vehicle sales data stored in **Snowflake** (`CAR_DATA_SALES.PUBLIC.VEHICLE_SALES00`). The objective was to transform raw sales records into **actionable insights** such as total revenue, profit margins, and aggregated views by **make, model, year, and state**. The outputs were designed to support **executive dashboards, reporting, and business intelligence tools** like Power BI and Looker Studio.
 
-Key Columns
-make – Vehicle manufacturer
+---
 
-model – Vehicle model
+## 🔍 How the Case Study Was Done
+1. **Dataset Exploration**
+   - Table: `CAR_DATA_SALES.PUBLIC.VEHICLE_SALES00`
+   - Key columns: `make`, `model`, `year`, `state`, `sellingprice_num`, `mmr_num`, `units_sold`.
 
-year – Manufacturing year
+2. **Data Transformations**
+   - Added calculated columns:
+     - `TOTAL_REVENUE = sellingprice_num × units_sold`
+     - `PROFIT_MARGIN = ((sellingprice_num - mmr_num) ÷ sellingprice_num) × 100`
+   - Populated metrics using SQL `UPDATE` statements.
 
-state – Sales region/state
+3. **Aggregations**
+   - Grouped data by:
+     - Make & Model
+     - Year
+     - State
+     - Combined (Make, Model, Year, State)
+   - Outputs included:
+     - `SUM(total_revenue)` → total revenue
+     - `AVG(profit_margin)` → average margin
+     - `COUNT(*)` → units sold
 
-sellingprice_num – Selling price of the vehicle
+4. **SQL Query Example**
+   ```sql
+   SELECT make,
+          model,
+          year,
+          state,
+          SUM(total_revenue) AS total_revenue,
+          AVG(profit_margin) AS avg_margin,
+          COUNT(*) AS units_sold
+   FROM "CAR_DATA_SALES"."PUBLIC"."VEHICLE_SALES00"
+   GROUP BY GROUPING SETS (
+       (make, model),
+       (year),
+       (state),
+       (make, model, year, state)
+   )
+   ORDER BY total_revenue DESC;
+📊 Insights Found
+Identified top-performing makes and models based on revenue and units sold.
 
-mmr_num – Cost price (Manheim Market Report value)
+Revealed sales trends by year, showing growth and decline patterns.
 
-units_sold – Number of units sold
+Compared regional performance by state, highlighting strong and weak markets.
 
-🔄 Data Transformations
-Add Calculated Columns
+Calculated profit margins, providing visibility into cost vs. selling price dynamics.
 
-TOTAL_REVENUE = sellingprice_num × units_sold
+🎯 Summary of Findings
+By transforming raw vehicle sales data into structured metrics, the project delivered:
 
-PROFIT_MARGIN = ((sellingprice_num - mmr_num) ÷ sellingprice_num) × 100
+Clear visibility into revenue drivers.
 
-Populate Metrics
+Insights into regional and yearly sales performance.
 
-SQL UPDATE statements calculate and store values for each row.
+Profitability analysis across different makes and models.
 
-Aggregations
+This demonstrates how SQL-based transformations can power business intelligence for decision-making in sales strategy, inventory management, and regional targeting.
 
-Grouped by:
+🛠️ Tools Used
+Snowflake — for data storage and querying
 
-Make & Model
+SQL Server / T-SQL — for transformations, aggregations, and metric calculations
 
-Year
+Power BI / Looker Studio — for dashboard visualization and storytelling
 
-State
-
-Combined (Make, Model, Year, State)
-
-Outputs
-
-SUM(total_revenue) → total revenue
-
-AVG(profit_margin) → average margin
-
-COUNT(*) → units sold
-
-📊 Query
-SELECT make,
-       model,
-       year,
-       state,
-       SUM(total_revenue) AS total_revenue,
-       AVG(profit_margin) AS avg_margin,
-       COUNT(*) AS units_sold
-FROM "CAR_DATA_SALES"."PUBLIC"."VEHICLE_SALES00"
-GROUP BY GROUPING SETS (
-    (make, model),
-    (year),
-    (state),
-    (make, model, year, state)
-)
-ORDER BY total_revenue DESC;
-🚀 Usage
-Snowflake: Run SQL scripts to transform and aggregate sales data.
-
-Power BI and Looker Studio: Connect directly to Snowflake or export results for visualization.
-
-Excel: Export query results as CSV for pivot tables and slicers.
-
-🎯 Business Value
-This analysis enables:
-
-Identifying top-performing makes and models.
-
-Tracking sales trends by year.
-
-Comparing regional performance by state.
-
-Evaluating profit margins to optimize pricing strategies.
-
-Providing executives with interactive dashboards for decision-making.
+Excel — for pivot tables, slicers, and ad-hoc analysis
 
